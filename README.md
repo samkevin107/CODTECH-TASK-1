@@ -35,3 +35,4 @@ Box Plots to highlight outliers and the distribution of features.
 Tools and Libraries:
 pandas for data manipulation
 matplotlib and seaborn for visualization
+![download](https://github.com/user-attachments/assets/32f8c609-36dd-4a1c-8cd5-4e2ea536f06d)
