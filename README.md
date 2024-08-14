@@ -36,3 +36,25 @@ Tools and Libraries:
 pandas for data manipulation
 matplotlib and seaborn for visualization
 ![download](https://github.com/user-attachments/assets/32f8c609-36dd-4a1c-8cd5-4e2ea536f06d)
+![download](https://github.com/user-attachments/assets/c49d6409-eafc-484e-8784-71bcd905dbf8)
+![download](https://github.com/user-attachments/assets/569063b9-60d4-49f3-ad25-8d498cfde53a)
+![download](https://github.com/user-attachments/assets/0df5be9d-4085-4096-a94d-54dfbf4e3fda)
+![download](https://github.com/user-attachments/assets/263fc6ca-35cd-4c2f-9708-ca54c4095ebe)
+![download](https://github.com/user-attachments/assets/d9404da0-a3e6-40e9-b140-a9e2ca93a853)
+![download](https://github.com/user-attachments/assets/40bdf322-1f68-4d1e-bb9e-63d9a6a7990c)
+![download](https://github.com/user-attachments/assets/e324e5f7-498c-493c-bbce-3208286a84f8)
+![download](https://github.com/user-attachments/assets/a151e6df-97d5-4ce1-8e39-fd8b1e51270b)
+![download](https://github.com/user-attachments/assets/eba0054b-821b-49f9-8b21-a6a1c75b4edb)
+
+
+
+
+
+
+
+
+
+
+
+
+
