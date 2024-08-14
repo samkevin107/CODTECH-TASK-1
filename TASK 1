@@ -1,0 +1,116 @@
+import pandas as pd
+import io
+from google.colab import files
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.decomposition import PCA
+from sklearn.ensemble import IsolationForest, RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, accuracy_score
+from sklearn.preprocessing import StandardScaler
+
+# Upload the dataset
+uploaded = files.upload()
+
+# Load the dataset
+file_name = list(uploaded.keys())[0]
+df = pd.read_csv(io.BytesIO(uploaded[file_name]))
+
+# Display the first few rows and data types of the dataset
+print("First few rows of the dataset:")
+print(df.head())
+
+print("\nData types of the columns:")
+print(df.dtypes)
+
+# Handle missing values by filling with the median
+df.fillna(df.median(numeric_only=True), inplace=True)
+
+# Feature Engineering: Create new features (interaction term)
+# Make sure to use only numeric columns for creating interaction features
+numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
+
+if len(numeric_columns) >= 2:
+    df['interaction_feature'] = df[numeric_columns[0]] * df[numeric_columns[1]]
+else:
+    print("Not enough numeric columns to create an interaction feature.")
+
+# We will only consider numeric columns for correlation matrix calculation
+numeric_df = df[numeric_columns]
+
+# Print columns being used for correlation calculation
+print("\nNumeric columns used for correlation matrix:")
+print(numeric_df.columns)
+
+# Compute the correlation matrix
+correlation_matrix = numeric_df.corr()
+
+print("\nCorrelation matrix of the dataset:")
+print(correlation_matrix)
+
+# Visualize the correlation matrix with a heatmap
+plt.figure(figsize=(12, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
+
+# Visualize distributions of the numeric columns with histograms
+plt.figure(figsize=(12, 8))
+numeric_df.hist(figsize=(12, 8), bins=15, edgecolor='black')
+plt.suptitle('Histograms of Numeric Features')
+plt.show()
+
+# Visualize potential outliers with box plots
+plt.figure(figsize=(12, 8))
+sns.boxplot(data=numeric_df)
+plt.title('Box Plot of Numeric Features')
+plt.xticks(rotation=45)  # Rotate x labels for better readability
+plt.show()
+
+# Standardize the numeric data before PCA
+scaler = StandardScaler()
+scaled_features = scaler.fit_transform(numeric_df)
+
+# Apply PCA to reduce dimensions
+pca = PCA(n_components=2)
+pca_result = pca.fit_transform(scaled_features)
+
+# Add PCA results to the dataframe for visualization
+df['pca_1'] = pca_result[:, 0]
+df['pca_2'] = pca_result[:, 1]
+
+# Plot PCA results
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='pca_1', y='pca_2', data=df)
+plt.title('PCA Results')
+plt.show()
+
+# Outlier Detection using Isolation Forest
+isolation_forest = IsolationForest(contamination=0.05, random_state=42)
+df['outliers'] = isolation_forest.fit_predict(scaled_features)
+
+# Visualize outliers
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='pca_1', y='pca_2', hue='outliers', data=df, palette='Set1')
+plt.title('Outliers Detection with Isolation Forest')
+plt.show()
+
+# Machine Learning: Building a Random Forest model (if the dataset has a target column)
+# Assuming 'target' is the column you want to predict
+if 'target' in df.columns:
+    X = df.drop(['target', 'outliers'], axis=1)
+    y = df['target']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+
+    # Predictions
+    y_pred = model.predict(X_test)
+
+    # Evaluating the model
+    print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Classification Report:\n", classification_report(y_test, y_pred))
+else:
+    print("No 'target' column found in the dataset. Skipping the Machine Learning step.")
