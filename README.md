@@ -40,6 +40,7 @@ matplotlib and seaborn for visualization
 ![download](https://github.com/user-attachments/assets/a151e6df-97d5-4ce1-8e39-fd8b1e51270b)
 ![download](https://github.com/user-attachments/assets/eba0054b-821b-49f9-8b21-a6a1c75b4edb)
 
+Task 2:PREDICTIVE MODELING WITH LINEAR REGRESSION
 
 
 
